@@ -47,7 +47,7 @@ pipeline {
   post {
     always {
       echo 'This will always run'
-      googlechatnotification url: CHAT_URL, message: "Pipeline: ${currentBuild.projectName}, Estado: ${currentBuild.currentResult}"
+      googlechatnotification url: CHAT_URL, message: "Pipeline: ${currentBuild.projectName} \n Estado: ${currentBuild.currentResult} \n Detalles: ${env.BUILD_URL}"
     }
     success {
       echo 'This will run only if successful'
