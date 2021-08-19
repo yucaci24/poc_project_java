@@ -19,7 +19,7 @@ pipeline {
         echo "------------>Compile & Unit Tests<------------"
           sh 'chmod +x gradlew'
           sh './gradlew --b ./build.gradle clean test'
-          junit 'build/test-results/test/*.xml'
+          //junit 'build/test-results/test/*.xml'
       }
     }
 
