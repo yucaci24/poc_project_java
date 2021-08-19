@@ -1,5 +1,8 @@
-apply plugin: 'java'
-apply plugin: 'jacoco'
+plugins {
+    id 'jacoco'
+    id 'java'
+}
+
 repositories {
     mavenCentral()
 }
@@ -17,8 +20,10 @@ test {
 
 jacocoTestReport {
     reports {
-        xml.required = false
+        xml.required = true
     }
 }
 
-test.finalizedBy(jacocoTestReport)
+test {
+    finalizedBy jacocoTestReport
+}
