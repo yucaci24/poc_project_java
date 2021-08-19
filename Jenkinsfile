@@ -2,10 +2,14 @@ pipeline {
   agent any
 
   options {
-    	buildDiscarder(logRotator(numToKeepStr: '3'))
+    buildDiscarder(logRotator(numToKeepStr: '3'))
  	disableConcurrentBuilds()
   }
 
+  environment {
+      CHAT_URL = credentials('URL_ID_SALA_CHAT')
+  }
+            
   stages{
     stage('Checkout') {
       steps{
@@ -37,12 +41,13 @@ pipeline {
         echo "------------>Build<------------"
         sh './gradlew --b ./build.gradle build -x test'
       }
-    }  
+    } 
   }
 
   post {
     always {
       echo 'This will always run'
+      googlechatnotification url: CHAT_URL, message: "Pipeline: ${currentBuild.projectName}, Estado: ${currentBuild.currentResult}"
     }
     success {
       echo 'This will run only if successful'
@@ -50,6 +55,7 @@ pipeline {
     failure {
       echo 'This will run only if failed'
       //mail (to: 'yuliana.canas@ceiba.com.co',subject: "Failed Pipeline:${currentBuild.fullDisplayName}",body: "Something is wrong with ${env.BUILD_URL}")
+      
     }
     unstable {
       echo 'This will run only if the run was marked as unstable'
