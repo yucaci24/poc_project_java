@@ -19,14 +19,14 @@ pipeline {
         echo "------------>Compile & Unit Tests<------------"
           sh 'chmod +x gradlew'
           sh './gradlew --b ./build.gradle clean test'
-          //junit 'build/test-results/test/*.xml'
+          junit 'build/test-results/test/*.xml'
       }
     }
 
     stage('Static Code Analysis') {
       steps{
         echo '------------>Análisis de código estático<------------'
-        withSonarQubeEnv('Sonar') {
+        withSonarQubeEnv('SonarQube') {
           sh "${tool name: 'SonarScanner', type:'hudson.plugins.sonar.SonarRunnerInstallation'}/bin/sonar-scanner -Dproject.settings=sonar-project.properties"
         }
       }
